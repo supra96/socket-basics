@@ -11,7 +11,7 @@ io.on('connection', function (socket) {//if you put socket param in function, it
 	socket.on('message', function (message){
 		console.log('Message received: '+ message.text)
 		//io.emit - sends it to everyone including the one who sent it
-		socket.broadcast.emit('message',message);//sends the message to everyboday but the one who sent it
+		io.emit('message',message);//sends the message to everyboday but the one who sent it
 	});
 
 	socket.emit('message',{
