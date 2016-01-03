@@ -3,6 +3,7 @@ var express=require('express');
 var app=express();
 var http =require('http').Server(app);
 var io=require('socket.io')(http);
+var moment=require('moment');
 
 app.use(express.static(__dirname+'/public'));
 
@@ -11,12 +12,14 @@ io.on('connection', function (socket) {//if you put socket param in function, it
 	socket.on('message', function (message){
 		console.log('Message received: '+ message.text)
 		//io.emit - sends it to everyone including the one who sent it
+		message.timestamp=moment().valueOf();
+
 		io.emit('message',message);//sends the message to everyboday but the one who sent it
 	});
 
 	socket.emit('message',{
-		text:'Made by-Supratik, Yorku Toronto. Please do not duplicate, even though you may not have the knowledge to.'
-
+		text:'Made by-Supratik, Yorku Toronto. Please do not duplicate, even though you may not have the knowledge to.',
+		timestamp: moment().valueOf()
 	});
 }); //listin for events
 
