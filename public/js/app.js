@@ -5,8 +5,14 @@ var socket=io(); //io isnt created by you, its defined
 var name=getQueryVariable('name')|| 'Anon';
 var room=getQueryVariable('room');
 console.log(name+ ' wants to join ' + room);
+jQuery('.room-title').text(room);
 socket.on('connect', function(){
 	console.log('Connected to socket.io server');
+  socket.emit('joinRoom', {
+    name: name,
+    room: room
+  });//its your method, not premade. but you gotta be consistent with it in both front and back ends
+
 });
 socket.on('message',function (message){
   var momentTimeStamp=moment.utc(message.timestamp); 
