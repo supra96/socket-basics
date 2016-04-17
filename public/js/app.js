@@ -2,15 +2,19 @@
 
 var socket=io(); //io isnt created by you, its defined
                      // by socket io library
+var name=getQueryVariable('name')|| 'Anon';
+var room=getQueryVariable('room');
+console.log(name+ ' wants to join ' + room);
 socket.on('connect', function(){
 	console.log('Connected to socket.io server');
 });
 socket.on('message',function (message){
   var momentTimeStamp=moment.utc(message.timestamp); 
+  var $message=jQuery('.messages');
 console.log('New message');
 console.log(message.text);
-jQuery('.messages').append('<p><strong>'+
-  momentTimeStamp.local().format('h:mm a ')+'</strong>' + message.text +'</p>');
+$message.append('<p><strong>'+ message.name+' : ' +message.text+' '+ momentTimeStamp.local().format('h:mm a ')+'</strong></p>');
+//$message.append('<p>'+ message.text + '</p>');
 });
 
 //Handles submitting of new message
@@ -20,6 +24,7 @@ var $form = jQuery('#message-form');//selector is a way to tak an element out of
  $form.on('submit', function (event){  //annoymous function
 		event.preventDefault(); //lets you submit w/o refreshing the whole page
   	socket.emit('message', {
+      name:name,
   		text: $m.val() //find lets you search inside of an element 
   	                                                       //val lets you fetch the actual data
   	});

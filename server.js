@@ -18,6 +18,7 @@ io.on('connection', function (socket) {//if you put socket param in function, it
 	});
 
 	socket.emit('message',{
+		name: 'System',
 		text:'Made by-Supratik, Yorku Toronto. Please do not duplicate, even though you may not have the knowledge to.',
 		timestamp: moment().valueOf()
 	});
